@@ -1,8 +1,8 @@
 const Pool = require("pg").Pool;
 const pool = new Pool({
   user: "postgres",
-  host: "db",
-  database: "db_name",
+  host: "localhost",
+  database: "db_node_sequelize_test",
   password: "postgres",
   port: 5432,
 });
