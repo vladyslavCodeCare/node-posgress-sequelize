@@ -1,23 +1,45 @@
-const Pool = require("pg").Pool;
-const pool = new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "db_node_sequelize_test",
-  password: "postgres",
-  port: 5432,
-});
+// const { Sequelize } = require("sequelize");
+// // const sequelize = new Sequelize(
+// //   "db_node_sequelize_test",
+// //   "postgres",
+// //   "postgres",
+// //   {
+// //     host: "localhost",
+// //     dialect: "postgres",
+// //   }
+// // );
 
-const connectToDB = async () => {
-  try {
-    await pool.connect();
-    console.log("connecte to db");
-  } catch (err) {
-    console.log(err);
-  }
-};
+// const sequelize = new Sequelize(
+//   // "postgres://postgres:postgres@localhost:5432/db_node_sequelize_test"
+//   "postgres://postgres:postgres@db-seq:5432/db_node_sequelize_test2"
+// );
 
-connectToDB();
+// // const Pool = require("pg").Pool;
+// // const pool = new Pool({
+// //   user: "postgres",
+// //   //
+// //   host: "127.0.0.1",
+// //   database: "db_node_sequelize_test2",
+// //   password: "postgres",
+// //   port: 5432,
+// // });
 
-module.exports = {
-  pool,
-};
+// const connectToDB = async () => {
+//   try {
+//     // await pool.connect();
+//     await sequelize.authenticate();
+//     console.log("Connection has been established successfully.");
+//   } catch (error) {
+//     console.error(
+//       "db_node_sequelize_test2 Unable to connect to the database:",
+//       error
+//     );
+//   }
+// };
+
+// // connectToDB();
+
+// module.exports = {
+//   // sequelize,
+//   connectToDB,
+// };

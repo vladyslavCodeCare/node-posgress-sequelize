@@ -2,8 +2,11 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const port = process.env.PORT || 4000;
+const db = require("./models");
+
 // const users = require("./controllers/users");
 // const orders = require("./controllers/orders");
+// const { connectToDB } = require("./services/db");
 
 app.use(bodyParser.json());
 
@@ -12,6 +15,8 @@ app.use(
     extended: true,
   })
 );
+
+// connectToDB();
 
 // app.get("/users", users.getUsers);
 // app.get("/users/:id", users.getUserById);
@@ -26,8 +31,18 @@ app.use(
 // app.put("/orders/:id", orders.updateOrder);
 // app.delete("/orders/:id", orders.deleteOrder);
 
+db.sequelize
+  .sync()
+  .then(() => {
+    console.log("Synced db.");
+  })
+  .catch((err) => {
+    console.log("Failed to sync db: " + err.message);
+  });
+
 app.get("/", (req, res) => {
-  res.send("Home Route");
+  console.log(`Home Route123`);
+  res.send("Home Route123");
 });
 app.listen(port, () =>
   console.log(`Server running on port ${port}, http://localhost:${port}`)

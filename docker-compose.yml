@@ -1,6 +1,6 @@
 version: "3.8"
 services:
-  db:
+  db-seq:
     image: postgres:14.1-alpine
     environment:
       - POSTGRES_USER=postgres
@@ -9,14 +9,19 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - db:/var/lib/postgresql/data
+      - db-seq:/var/lib/postgresql/data
   api:
-    build: ./
+    build: .
     container_name: node_sequelize_test
     ports:
       - "4000:4000"
+    # command: npm run dev
     volumes:
-      - ./node_modules
+      # - ./app
+      # - ./app/node_modules
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
 volumes:
-  db:
-    driver: local
+  db-seq:
+    {}
+    # driver: local
