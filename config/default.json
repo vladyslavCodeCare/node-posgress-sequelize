@@ -1,9 +1,0 @@
-{
-  "db": {
-    "user": "postgres",
-    "host": "127.0.0.1",
-    "database": "db_node_sequelize_test",
-    "password": "postgres",
-    "port": 5432
-  }
-}

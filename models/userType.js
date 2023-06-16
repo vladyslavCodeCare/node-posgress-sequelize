@@ -6,33 +6,24 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: true,
       type: Sequelize.INTEGER,
     },
-    name: {
+    label: {
       type: Sequelize.STRING,
     },
-    info: {
+    description: {
       type: Sequelize.STRING,
-    },
-    number: {
-      type: Sequelize.STRING,
-    },
-    userTypeId: {
-      type: DataTypes.INTEGER,
-      references: { model: "user_types", key: "id" },
-      allowNull: false,
     },
   };
 
   const options = {
-    tableName: "users",
+    tableName: "user_types",
     underscored: true,
   };
-  const Model = sequelize.define("users", definition, options);
+
+  const Model = sequelize.define("userTypes", definition, options);
 
   Model.associate = (models) => {
-    Model.hasOne(models.userTypes);
+    Model.belongsTo(models.users);
   };
-
-  Model.sync();
 
   return Model;
 };
