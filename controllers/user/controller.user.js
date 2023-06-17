@@ -2,25 +2,45 @@ const db = require("../../models");
 const User = db.user;
 const Op = db.Sequelize.Op;
 
-// Create and Save a new Tutorial
+/* 
+params:
+name req
+info
+number req 
+userTypeId req
+*/
+
 exports.create = (req, res) => {
-  // Validate request
-  if (!req.body.name) {
+  const userData = {
+    name: req.body.name,
+    info: req.body.info,
+    number: req.body.number,
+    userTypeId: req.body.userTypeId,
+  };
+
+  if (!userData.name || !userData.number || !userData.userTypeId) {
     res.status(400).send({
       message: "Content can not be empty!",
     });
     return;
   }
 
-  // Create a Tutorial
-  const tutorial = {
-    title: req.body.title,
-    description: req.body.description,
-    number: req.body.number,
-  };
+  User.create(userData)
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Some error occurred while creating the User.",
+      });
+    });
+};
 
-  // Save Tutorial in the database
-  User.create(tutorial)
+exports.findAll = (req, res) => {
+  User.scope("getMinUsers")
+    .findAll({
+      where: req.query,
+    })
     .then((data) => {
       res.send(data);
     })
@@ -32,20 +52,36 @@ exports.create = (req, res) => {
     });
 };
 
-// Retrieve all Tutorials from the database.
-exports.findAll = (req, res) => {};
+exports.findOne = (req, res) => {
+  User.findOne({
+    where: req.query,
+  })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Tutorial.",
+      });
+    });
+};
 
-// Find a single Tutorial with an id
-exports.findOne = (req, res) => {};
+exports.update = (req, res) => {
+  User.findOne({ where: req.params })
+    .then((user) => {
+      user.update({ ...req.body });
+      return user;
+    })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Tutorial.",
+      });
+    });
+};
 
-// Update a Tutorial by the id in the request
-exports.update = (req, res) => {};
-
-// Delete a Tutorial with the specified id in the request
 exports.delete = (req, res) => {};
-
-// Delete all Tutorials from the database.
-exports.deleteAll = (req, res) => {};
-
-// Find all published Tutorials
-exports.findAllPublished = (req, res) => {};
