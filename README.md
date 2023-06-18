@@ -2,7 +2,7 @@ PROJECT node-express, postgres-sequelize with docker
 
 You need docker to be installed on you machine: https://www.docker.com/products/docker-desktop/
 
-To start project use socker-compose up
+To start project use 'docker-compose up'
 
 It availeble on 4000 port
 You can use postaman to check
