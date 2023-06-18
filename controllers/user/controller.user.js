@@ -1,6 +1,7 @@
 const db = require("../../models");
 const User = db.user;
 const Op = db.Sequelize.Op;
+const sequelize = require("sequelize");
 
 /* 
 params:
@@ -8,6 +9,7 @@ name req
 info
 number req 
 userTypeId req
+points
 */
 
 exports.create = (req, res) => {
@@ -16,6 +18,7 @@ exports.create = (req, res) => {
     info: req.body.info,
     number: req.body.number,
     userTypeId: req.body.userTypeId,
+    points: req.body.points,
   };
 
   if (!userData.name || !userData.number || !userData.userTypeId) {
@@ -84,4 +87,68 @@ exports.update = (req, res) => {
     });
 };
 
-exports.delete = (req, res) => {};
+// move points from user1 to user2
+// exmp send: { id1: '1', id2: '2', give: '200' }
+exports.exchangePoints = async (req, res) => {
+  const { id1, id2, give } = req.body;
+
+  const transaction = await db.sequelize.transaction();
+
+  transaction.afterCommit(() => {
+    res.send("exchange success");
+  });
+
+  try {
+    const firstUser = await User.findOne(
+      { where: { id: id1 } },
+      { transaction: transaction }
+    );
+    if (!firstUser) {
+      throw new Error();
+    }
+    await User.update(
+      {
+        points: +firstUser.points - give,
+      },
+      { where: { id: id1 }, transaction: transaction }
+    );
+
+    const secondUser = await User.findOne(
+      { where: { id: id2 } },
+      { transaction: transaction }
+    );
+
+    if (!secondUser.id) {
+      throw new Error();
+    }
+
+    await User.update(
+      {
+        points: Number.parseInt(secondUser.points) + Number.parseInt(give),
+      },
+      { where: { id: id2 }, transaction: transaction }
+    );
+    await transaction.commit();
+  } catch (error) {
+    await transaction.rollback();
+    res.send("exchange failed");
+  }
+};
+
+exports.delete = (req, res) => {
+  User.destroy({
+    where: {
+      ...req.params,
+    },
+    individualHooks: true,
+  })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Tutorial.",
+      });
+    });
+};

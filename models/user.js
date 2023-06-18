@@ -17,12 +17,22 @@ module.exports = (sequelize, Sequelize) => {
     number: {
       type: Sequelize.STRING,
       allowNull: false,
+      unique: true,
+    },
+    points: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
     },
     userTypeId: {
       type: Sequelize.INTEGER,
       references: { model: "user_types", key: "id" },
       allowNull: false,
     },
+  };
+
+  const formatNum = (num) => {
+    return num.replace(/\D/g, "");
   };
 
   const options = {
@@ -33,12 +43,34 @@ module.exports = (sequelize, Sequelize) => {
         unique: true,
         fields: ["user_type_id"],
       },
+      {
+        fields: ["name"],
+      },
     ],
     scopes: {
       getMinUsers() {
         return {
           attributes: ["id", "name"],
         };
+      },
+    },
+    hooks: {
+      //format number
+      beforeCreate: (record) => {
+        record.number = formatNum(record.number);
+        return record;
+      },
+      beforeUpdate: (record) => {
+        record.number = formatNum(record.number);
+        return record;
+      },
+      //creates fistory with user points
+      beforeDestroy: async (record) => {
+        await sequelize.models.history.create({
+          userName: record.name,
+          points: record.points,
+        });
+        return record;
       },
     },
   };
