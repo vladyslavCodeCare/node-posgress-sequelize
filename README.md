@@ -28,3 +28,5 @@ To start seed 'npm run seed:run'
 To change DB config for sequelize migration ./config/config.json
 
 To change DB config ./docker-compose.yml section 'db-seq'
+
+To change DB config for sequelize connection ./models/index
