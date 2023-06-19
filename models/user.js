@@ -7,7 +7,7 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.INTEGER,
     },
     name: {
-      type: Sequelize.STRING,
+      type: Sequelize.STRING(40),
       allowNull: false,
     },
     info: {
@@ -40,7 +40,6 @@ module.exports = (sequelize, Sequelize) => {
     underscored: true,
     indexes: [
       {
-        unique: true,
         fields: ["user_type_id"],
       },
       {

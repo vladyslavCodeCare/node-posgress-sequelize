@@ -11,13 +11,22 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       name: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(40),
+        allowNull: false,
       },
       info: {
         type: Sequelize.STRING,
+        allowNull: true,
       },
       number: {
         type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      points: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
       },
       userTypeId: {
         type: Sequelize.INTEGER,
@@ -25,6 +34,8 @@ module.exports = {
         allowNull: false,
       },
     });
+    await queryInterface.addIndex("users", ["name"]);
+    await queryInterface.addIndex("users", ["user_type_id"]);
   },
 
   async down(queryInterface, Sequelize) {
