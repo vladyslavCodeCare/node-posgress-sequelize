@@ -35,7 +35,7 @@ module.exports = {
       },
     });
     await queryInterface.addIndex("users", ["name"]);
-    await queryInterface.addIndex("users", ["user_type_id"]);
+    await queryInterface.addIndex("users", ["userTypeId"]);
   },
 
   async down(queryInterface, Sequelize) {

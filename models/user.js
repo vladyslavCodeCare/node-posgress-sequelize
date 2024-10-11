@@ -77,6 +77,7 @@ module.exports = (sequelize, Sequelize) => {
 
   Model.associate = (models) => {
     Model.hasOne(models.userTypes);
+    Model.belongsTo(models.message);
   };
 
   Model.sync();
