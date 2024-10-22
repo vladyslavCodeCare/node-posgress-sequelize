@@ -15,6 +15,7 @@ services:
     container_name: node_sequelize_test
     ports:
       - "4000:4000"
+      - "9000:9000"
     # command: npm run dev
     volumes:
       # - ./app

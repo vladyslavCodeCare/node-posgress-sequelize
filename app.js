@@ -22,9 +22,10 @@ router.delete("/users/:id", users.delete);
 router.put("/exchange", users.exchangePoints);
 
 app.use("/api", router);
+const ws = require("./services/websocket");
 
 db.sequelize
-  .sync({ force: true })
+  .sync({})
   .then(() => {
     console.log("------Synced db.");
   })
