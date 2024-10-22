@@ -6,11 +6,12 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: true,
       type: Sequelize.INTEGER,
     },
-    message: {
-      type: Sequelize.STRING(),
+    userIdOne: {
+      type: Sequelize.INTEGER,
+      references: { model: "users", key: "id" },
       allowNull: false,
     },
-    userId: {
+    userIdTwo: {
       type: Sequelize.INTEGER,
       references: { model: "users", key: "id" },
       allowNull: false,
@@ -18,21 +19,23 @@ module.exports = (sequelize, Sequelize) => {
   };
 
   const options = {
-    tableName: "messages",
+    tableName: "friends",
     underscored: false,
     indexes: [
       {
-        fields: ["userId"],
+        fields: ["userIdOne", "userIdTwo"],
       },
     ],
 
     hooks: {},
   };
-  const Model = sequelize.define("messages", definition, options);
+  const Model = sequelize.define("friends", definition, options);
 
   Model.associate = (models) => {
-    Model.hasOne(models.users);
+    Model.hasMany(models.users);
   };
+
+  // Model.sync();
 
   return Model;
 };

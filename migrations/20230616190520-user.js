@@ -33,6 +33,12 @@ module.exports = {
         references: { model: "user_types", key: "id" },
         allowNull: false,
       },
+      createdAt: {
+        type: Sequelize.DATE,
+      },
+      updatedAt: {
+        type: Sequelize.DATE,
+      },
     });
     await queryInterface.addIndex("users", ["name"]);
     await queryInterface.addIndex("users", ["userTypeId"]);

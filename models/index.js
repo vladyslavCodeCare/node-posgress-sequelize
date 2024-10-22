@@ -13,5 +13,7 @@ db.sequelize = sequelize;
 db.user = require("./user")(sequelize, Sequelize);
 db.userType = require("./userType")(sequelize, Sequelize);
 db.history = require("./history")(sequelize, Sequelize);
+db.message = require("./message")(sequelize, Sequelize);
+db.friends = require("./friends")(sequelize, Sequelize);
 
 module.exports = db;

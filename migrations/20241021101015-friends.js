@@ -3,18 +3,19 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("messages", {
+    await queryInterface.createTable("friends", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      message: {
-        type: Sequelize.STRING(),
+      userIdOne: {
+        type: Sequelize.INTEGER,
+        references: { model: "users", key: "id" },
         allowNull: false,
       },
-      userId: {
+      userIdTwo: {
         type: Sequelize.INTEGER,
         references: { model: "users", key: "id" },
         allowNull: false,
@@ -22,13 +23,12 @@ module.exports = {
       createdAt: {
         type: Sequelize.DATE,
       },
-
       updatedAt: {
         type: Sequelize.DATE,
       },
     });
 
-    await queryInterface.addIndex("messages", ["userId"]);
+    await queryInterface.addIndex("friends", ["userIdOne", "userIdTwo"]);
     /**
      * Add altering commands here.
      *
@@ -38,7 +38,7 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("messages");
+    await queryInterface.dropTable("friends");
 
     /**
      * Add reverting commands here.

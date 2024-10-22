@@ -16,7 +16,7 @@ module.exports = (sequelize, Sequelize) => {
 
   const options = {
     tableName: "user_types",
-    underscored: true,
+    underscored: false,
   };
 
   const Model = sequelize.define("userTypes", definition, options);

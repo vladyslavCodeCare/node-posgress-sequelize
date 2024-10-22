@@ -37,10 +37,10 @@ module.exports = (sequelize, Sequelize) => {
 
   const options = {
     tableName: "users",
-    underscored: true,
+    underscored: false,
     indexes: [
       {
-        fields: ["user_type_id"],
+        fields: ["userTypeId"],
       },
       {
         fields: ["name"],
@@ -77,10 +77,11 @@ module.exports = (sequelize, Sequelize) => {
 
   Model.associate = (models) => {
     Model.hasOne(models.userTypes);
-    Model.belongsTo(models.message);
+    Model.belongsTo(models.messages);
+    Model.belongsTo(models.friends);
   };
 
-  Model.sync();
+  // Model.sync();
 
   return Model;
 };

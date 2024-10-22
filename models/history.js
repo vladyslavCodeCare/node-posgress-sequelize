@@ -16,7 +16,7 @@ module.exports = (sequelize, Sequelize) => {
 
   const options = {
     tableName: "history",
-    underscored: true,
+    underscored: false,
   };
 
   const Model = sequelize.define("history", definition, options);
